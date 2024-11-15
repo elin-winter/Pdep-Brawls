@@ -1,9 +1,17 @@
-import example.pepita
+/*
 
-describe "group of tests for pepita" {
+Escribir los tests necesarios para probar el correcto 
+funcionamiento del código que prueba que una misión 
+individual fue superada. Se espera un test bien nombrado 
+por cada clase de equivalencia.
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+*/
+
+/*
+describe "" {
+  test "description" {
+    
   }
-
 }
+
+*/
