@@ -9,14 +9,14 @@ class Mision {
     
     method participantes() = participantes
 
-    method realizarMision(personaje) {
+    method realizarMision() {
         if(self.sePuedeRealizar()) {
             var cant = self.cantCopasEnJuego()
             if(self.esSuperada())  
                 cant = formaDePremiar.cantCopasFinal(self) 
             else cant *= -1
 
-            personaje.sumarCopas(cant)
+            participantes.forEach({x => x.sumarCopas(cant)})
         } else 
             throw new DomainException(message = "Misión no puede comenzar")
     }
@@ -25,7 +25,10 @@ class Mision {
         self.mayoriaEstrategas() || self.partipantesDiestros()
 
     method mayoriaEstrategas() = 
-        participantes.filter({x => x.tieneEstrategia()}) > (participantes.size() / 2)
+        !self.listaEstrategas().isEmpty() and self.listaEstrategas().size() > (participantes.size() / 2)
+    
+    method listaEstrategas() = 
+        participantes.filter({x => x.tieneEstrategia()})
 
     method partipantesDiestros()
     method sePuedeRealizar()

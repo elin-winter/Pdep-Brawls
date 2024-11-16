@@ -1,17 +1,75 @@
-/*
+import personaje.*
+import mision.*
 
-Escribir los tests necesarios para probar el correcto 
-funcionamiento del código que prueba que una misión 
-individual fue superada. Se espera un test bien nombrado 
-por cada clase de equivalencia.
+	const pepe = new Arquero(cantCopasGanadas = 25, agilidad = 25, rango = 40)
+	const luana = new Guerrera(cantCopasGanadas = 20, tieneEstrategia = true, fuerza = 3000000)
+	const martina = new Ballestero(cantCopasGanadas = 0, agilidad = 0, rango = 90)
+	
+    const misionInd = new MisionIndividual(
+        formaDePremiar = normal, 
+        participantes = [pepe], 
+        dificultad = 100)
+	
+    const misionSinPersonajes = new MisionEquipo(
+        formaDePremiar = normal, 
+        participantes = []
+    )
 
-*/
+    const misionNoSuperada = new MisionIndividual(
+        formaDePremiar = normal, 
+        participantes = [martina], 
+        dificultad = 100000
+    )
 
-/*
-describe "" {
-  test "description" {
-    
-  }
+    const otraMisionInd = new MisionIndividual(
+        formaDePremiar = normal, 
+        participantes = [luana], 
+        dificultad = 100)
+
+
+describe "Test de Brawls" {
+
+    test "mision superada" {	
+		assert.that(misionInd.esSuperada())
+	}
+	
+	test "mision sin personajes, es tan trivial que puede ser superada" {
+		assert.that(misionSinPersonajes.esSuperada())
+	}
+	
+	test "mision no superada" {
+		assert.notThat(misionNoSuperada.esSuperada())
+	}
+	
+	
+	test "cant copas de una misión con boost se multiplica por el multiplicador" {
+		
+		const mision = new MisionIndividual(
+            formaDePremiar = new Boost(multiplicador = 2), 
+            participantes = [luana], 
+            dificultad = 1)	
+        mision.realizarMision()
+        assert.that(mision.esSuperada())
+		assert.equals(24, luana.cantCopasGanadas())
+	}
 }
 
-*/
+describe "Mision Individual funciona correctamente" {
+	test "una mision individual es superada cuando el personaje tiene estrategia (no importa la destreza)" {
+
+		assert.that(otraMisionInd.esSuperada())
+	}
+	test "una mision individual es superada cuando el personaje supera la destreza de la misión (no importa la estrategia)" {
+		assert.that(misionInd.esSuperada())
+	}
+	
+	test "una mision individual no es superada cuando no le alcanza la destreza (sin tener estrategia)" {
+		const otraMision = new MisionIndividual(
+            formaDePremiar = new Boost(multiplicador = 2), 
+            participantes = [new Guerrera(cantCopasGanadas = 1000000, tieneEstrategia = false, fuerza = 1)], 
+            dificultad = 10000)	
+
+		assert.notThat(otraMision.esSuperada())
+	}
+}
+
